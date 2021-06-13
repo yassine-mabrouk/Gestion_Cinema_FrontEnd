@@ -1,0 +1,76 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <ul *ngIf="villes" class="list-group">
+                <li [ngClass]="v==currentVille ? 'active': ''" *ngFor="let v of villes._embedded.villes" class="list-group-item clik" (click)="onGetCinemas(v)">{{v.name}}</li>
+            </ul>
+        </div>
+        <div class=" col-md-9 ">
+            <div class="panel panel-default">
+                <div class="panel-heading">Listes des Cinémas</div>
+                <div class="panel-body">
+                    <ul *ngIf="cinema" class="nav nav-pills">
+                        <li *ngFor="let c of  cinema._embedded.cinemas" [ngClass]="c==currentCinema ? 'active': ''" class="clik">
+                            <a (click)="onGetSalles(c)">{{c.name}}</a>
+                        </li>
+                    </ul>
+
+                    <div class="row" *ngIf="salles">
+                        <div *ngFor="let s of  salles._embedded.salles">
+                            <div class="col-md-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading clik">{{s.name}}</div>
+                                    <div class="panel-body" *ngIf="s.projections">
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <img class="setImg" src="{{service.host+'/imageFilm/'+s.projections._embedded.projections[0].film.id}}" alt="">
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item">Séances</li>
+                                                    <li (click)="onGetTicketPlace(p)" [ngClass]="p==currentProjection ? 'active': ''" class="list-group-item clik" *ngFor="let p of s.projections._embedded.projections">
+                                                        {{p.seance.heureDebut}} Prix: {{p.prix|number:'0.00'}}
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="currentProjection">
+                                            <div *ngIf="currentProjection.salle.id==s.id">
+                                                <div class="row" *ngIf="currentProjection.tickets">
+                                                    <button class="{{getTicketsClass(t)}}" (click)="onSelectTicket(t)" [disabled]="t.reserve" *ngFor="let t of currentProjection.tickets._embedded.tickets">
+                                                 {{t.place.numero}}
+                                                      </button>
+                                                </div>
+                                                <div *ngIf="selectedTickts.length>0">
+                                                    <form #f="ngForm" (ngSubmit)="onPayerTickets(f.value)" class="myform">
+                                                        <div class="form-group">
+                                                            <label for="">Nom Client </label>
+                                                            <input type="text" class="form-control" ngModel name="nomClient" placeholder="Saisir votre nom ">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="">Code de paiement </label>
+                                                            <input type="text" class="form-control" ngModel name="codePayeme" placeholder="Saisir le code de paiement">
+                                                        </div>
+
+                                                        <button type="submit" class="btn btn-primary">Payer Tickets</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
