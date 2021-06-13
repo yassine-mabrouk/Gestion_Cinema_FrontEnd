@@ -1,4 +1,9 @@
-# CinemaFrontEndAngular
+# Projet Gestion Cinema
+## CinemaFrontEndAngular
+# 
+### This project is  full-stack application, built with Spring boot and Angular.
+
+ [backend](https://github.com/yassine-mabrouk/Gestion_cinema_API)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.0.
 
